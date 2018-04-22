@@ -1,0 +1,85 @@
+//****** Welcome to Blockspring!
+//****** To help you get started, below is a fully-commented sample function that prints out a simple welcome message.
+
+// require the blockspring package.
+var blockspring = require('blockspring');
+
+// pass your function into blockspring.define. tells blockspring what function to run.
+blockspring.define(function(request, response) {
+    
+    // retrieve input parameters and assign to variables for convenience.
+    var bestbuy = request.params["bestbuy"];
+    var bestbuy_k = request.params["bestbuy_k"];
+    var b_price = request.params["b_price"];
+    var b_url = request.params["b_url"];
+    var b_upc = request.params["b_upc"];
+    
+    var walmart_k = request.params["walmart_k"];
+    var walmart_v = request.params["walmart_v"];
+    var w_price = request.params["w_price"];
+    var w_url = request.params["w_url"];
+    var w_upc = request.params["w_upc"];
+    
+    
+    
+    
+ 	//split the long string inputs into seperate values
+    var textSplit1 = bestbuy.split("'$'");
+    var textSplit2 = bestbuy_k.split("'$'");
+    var textSplit3 = b_price.split("'$'");
+    var textSplit4 = b_url.split("'$'");
+    var textSplit5 = b_upc.split("'$'");
+    
+    var wtextSplit1 = walmart_k.split("'$'");
+    var wtextSplit2 = walmart_v.split("'$'");
+    var wtextSplit3 = w_price.split("'$'");
+    var wtextSplit4 = w_url.split("'$'");
+    var wtextSplit5 = w_upc.split("'$'");
+    
+    //bestbuy loop
+    var newList =  [];
+    var num =  [];
+    var wnum =  ["1","2","7","10","2"];
+    var bnum =  ["1","2","7","10","2"];
+    for (i = 0; i < textSplit1.length; i++){
+        
+        num[i] = i;
+        newList[i] = Array(textSplit1[i], textSplit2[i], Number(textSplit3[i]), textSplit4[i], textSplit5[i]);
+         }
+    
+    //walmart loop
+    var wnewList =  [];
+    for (i = 0; i < wtextSplit1.length; i++){
+        wnewList[i] = Array(wtextSplit1[i], wtextSplit2[i], Number(wtextSplit3[i]), wtextSplit4[i], wtextSplit5[i]);
+         }
+    
+    unsortedList = [["hi","hi",55], ["hi","yo",55], ["hi","hi",90], ["hi","hi",87], ["hi","hi",8], ["hi","hi",40]]; 
+    
+    //sort the arrays
+    function sortFunction(a, b) {
+    if (a[2] === b[2]) {
+        return 0;
+    }
+    else {
+        return (b[2] < a[2]) ? -1 : 1;
+    }
+}
+    unsortedList.sort(sortFunction);
+    
+    
+    //test merge
+    var merge = newList.concat(wnewList);
+    merge.sort(sortFunction);
+    
+    // add the message to the function's output.
+	//response.addOutput('intro', bnum);
+    //response.addOutput('intro2', wnewList);
+    response.addOutput('intro3', merge);
+    //response.addOutput('intro4', unsortedList);
+    
+ 
+
+    
+    // return the output.
+	response.end();
+});
